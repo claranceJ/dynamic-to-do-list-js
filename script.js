@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const addButton = document.getElementById("add-task-btn");
 
     //select task input
-    const taskInput = document.getElementById("taskInput");
+    const taskInput = document.getElementById("task-input");
 
     //select task list
     const taskList = document.getElementById("task-list");
@@ -58,5 +58,6 @@ document.addEventListener("DOMContentLoaded", function() {
             addTask();
 
         }
-    })
+    });
+
 });
