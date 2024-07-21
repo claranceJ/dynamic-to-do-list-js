@@ -10,10 +10,35 @@ document.addEventListener("DOMContentLoaded", function() {
     //select task list
     const taskList = document.getElementById("task-list");
     
+     // Function to load tasks from Local Storage
+    function loadTasks() {
+        // Retrieve tasks from localStorage
+        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        
+        // Populate the task list
+        storedTasks.forEach(function(taskText) {
+            addTask(taskText, false); // 'false' indicates not to save again to Local Storage
+        });
+    }
+
+    // Function to save tasks to Local Storage
+    function saveTasks() {
+        const tasks = [];
+        const taskItems = taskList.getElementsByTagName('li');
+        for (let item of taskItems) {
+            tasks.push(item.firstChild.textContent);
+        }
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
     //initializig the addTask Function
-    function addTask(){
+    function addTask(taskText, save = true){
         //triming the task input field
-        const taskText = taskInput.value.trim();
+        if (save) {
+            taskText = taskInput.value.trim();
+
+        }
+            
     
         //check if taskText is not empty
         if (taskText === "") {
@@ -28,12 +53,12 @@ document.addEventListener("DOMContentLoaded", function() {
         //create new Button
         const removeButton = document.createElement("button");
         removeButton.textContent = "Remove";
-        
         removeButton.classList.add("remove-btn");
 
-        //defining onclick event
+        //define onclick event
         removeButton.onclick = function() {
             taskList.removeChild(newTask);
+            saveTasks();// save updated tasks to localstorage
         };
 
         //Append the remove button to the new task
@@ -44,6 +69,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         //clear input field
         taskInput.value = "";
+
+        //Save tasks to Local storage if specified
+        if (save) {
+            saveTasks();
+
+        }
+       
     }
     // Add event listener to the button when clicked
     addButton.addEventListener("click", addTask);
@@ -60,5 +92,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         }
     });
+
+    //Load tasks when page loads
+    loadTasks();
 
 });
