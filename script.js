@@ -94,6 +94,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Load tasks when page loads
-    loadTasks();
+    loadTasks()
 
 });
